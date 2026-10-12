@@ -1,0 +1,15 @@
+# python окружение
+.venv/
+
+# локальные настройки (не коммитить — там URL/секреты окружения)
+.env
+
+# python cache and ide
+__pycache__/
+.idea/
+.ruff_cache/
+.pytest_cache/
+
+# allure report and results
+allure-report/
+allure-results/
