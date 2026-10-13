@@ -4,6 +4,4 @@
 чтобы они были доступны во всех тестах проекта.
 """
 
-pytest_plugins = (
-    "fixtures.user",
-)
+pytest_plugins = ("fixtures.user",)

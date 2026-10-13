@@ -12,20 +12,24 @@ from tools.faker import fake
 class UserSchema(BaseModel):
     """Данные пользователя, которые возвращает API.
 
+    Для ФИО в JSON используются camelCase-имена (``lastName`` и т.д.),
+    а в Python-коде — snake_case. Это возможно благодаря ``alias``
+    и ``populate_by_name=True``.
+
     Attributes:
         id: Уникальный идентификатор пользователя.
         email: Email пользователя.
-        last_name: Фамилия.
-        first_name: Имя.
-        middle_name: Отчество.
+        last_name: Фамилия (в JSON — ``lastName``).
+        first_name: Имя (в JSON — ``firstName``).
+        middle_name: Отчество (в JSON — ``middleName``).
     """
 
     model_config = ConfigDict(populate_by_name=True)
     id: str
     email: EmailStr
-    last_name: str
-    first_name: str
-    middle_name: str
+    last_name: str = Field(alias="lastName")
+    first_name: str = Field(alias="firstName")
+    middle_name: str = Field(alias="middleName")
 
 
 class CreateUserRequestSchema(BaseModel):
@@ -44,6 +48,7 @@ class CreateUserRequestSchema(BaseModel):
         middle_name: Отчество (в JSON — ``middleName``).
     """
 
+    model_config = ConfigDict(populate_by_name=True)
     email: EmailStr = Field(default_factory=fake.email)
     password: str = Field(default_factory=fake.password)
     last_name: str = Field(alias="lastName", default_factory=fake.last_name)
