@@ -5,7 +5,11 @@ from httpx import Response
 
 from client.api_client import ApiClient
 from client.public_http_builder import get_public_http_client
-from client.users.users_schema import CreateUserRequestSchema, CreateUserResponseSchema
+from client.users.users_schema import (
+    CreateUserRequestSchema,
+    CreateUserResponseSchema,
+    CreateUserRequestNegativeSchema,
+)
 from tools.http.routes import ApiRoutes
 
 
@@ -18,14 +22,19 @@ class PublicUserClient(ApiClient):
     """
 
     @allure.step("Создать пользователя")
-    def create_user_api(self, request: CreateUserRequestSchema) -> Response:
+    def create_user_api(
+        self,
+        request: CreateUserRequestSchema | CreateUserRequestNegativeSchema,
+    ) -> Response:
         """Создаёт пользователя и возвращает «сырой» HTTP-ответ.
 
         Используйте этот метод, когда нужно проверить статус-код,
         заголовки или тело ответа «как есть».
+        Принимает и позитивную, и негативную схему запроса.
 
         Args:
-            request: Данные нового пользователя (Pydantic-схема).
+            request: Данные нового пользователя (валидные или намеренно
+                невалидные — через ``CreateUserRequestNegativeSchema``).
 
         Returns:
             Ответ сервера (``httpx.Response``).

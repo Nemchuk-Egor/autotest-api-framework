@@ -54,3 +54,20 @@ def assert_is_true(actual: Any, name: str) -> None:
         AssertionError: Если значение ложно (falsy): ``None``, ``False``, ``0``, ``""`` и т.п.
     """
     assert actual, f"Expected {name} to be True, but got {actual}"
+
+
+@allure.step("Проверить длину списка {name}")
+def assert_length(actual: list, expected: list, name: str) -> None:
+    """Проверяет, что два списка имеют одинаковую длину.
+
+    Args:
+        actual: Фактический список (например, ``response.details``).
+        expected: Ожидаемый список-эталон.
+        name: Имя проверяемого поля для сообщения об ошибке.
+
+    Raises:
+        AssertionError: Если длины списков не совпадают.
+    """
+    assert len(actual) == len(expected), (
+        f"Expected {name} length to be {len(expected)}, but got {len(actual)}"
+    )

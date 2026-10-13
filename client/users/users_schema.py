@@ -64,3 +64,27 @@ class CreateUserResponseSchema(BaseModel):
     """
 
     user: UserSchema
+
+
+class CreateUserRequestNegativeSchema(BaseModel):
+    """Тело запроса для **негативных** сценариев создания пользователя.
+
+    В отличие от ``CreateUserRequestSchema``, здесь типы полей широкие
+    (``str | int | None``), чтобы тест мог осознанно отправить
+    невалидные значения (пустой email, ``None``, число и т.д.).
+    Позитивная схема с ``EmailStr`` такое тело просто не собрала бы.
+
+    Attributes:
+        email: Email (допускаются невалидные значения).
+        password: Пароль (допускаются невалидные значения).
+        last_name: Фамилия (в JSON — ``lastName``).
+        first_name: Имя (в JSON — ``firstName``).
+        middle_name: Отчество (в JSON — ``middleName``).
+    """
+
+    model_config = ConfigDict(populate_by_name=True)
+    email: str | int | None = Field(default_factory=fake.email)
+    password: str | int | None = Field(default_factory=fake.password)
+    last_name: str | int | None = Field(alias="lastName", default_factory=fake.last_name)
+    first_name: str | int | None = Field(alias="firstName", default_factory=fake.first_name)
+    middle_name: str | int | None = Field(alias="middleName", default_factory=fake.middle_name)
