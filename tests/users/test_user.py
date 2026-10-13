@@ -3,9 +3,13 @@
 from http import HTTPStatus
 
 import pytest
+import allure
 
 from client.users.public_users_client import PublicUserClient
 from client.users.users_schema import CreateUserRequestSchema, CreateUserResponseSchema
+from tools.allure.epic import AllureEpic
+from tools.allure.feature import AllureFeature
+from tools.allure.story import AllureStory
 from tools.assertion.validation import validate_json_schema
 from tools.assertion.base import assert_status_code
 from tools.assertion.users import assert_create_user
@@ -13,9 +17,13 @@ from tools.assertion.users import assert_create_user
 
 @pytest.mark.regression
 @pytest.mark.users
+@allure.epic(AllureEpic.LMS)
+@allure.feature(AllureFeature.USERS)
 class TestUser:
     """Набор тестов для операций с пользователями."""
 
+    @allure.story(AllureStory.CREATE_ENTITY)
+    @allure.title("Успешное создание пользователя")
     def test_create_user(self, public_user_client: PublicUserClient):
         """Проверяет успешное создание пользователя.
 

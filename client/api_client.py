@@ -6,6 +6,8 @@
 
 from typing import Any
 
+import allure
+
 from httpx import Client, URL, Response
 from httpx._types import QueryParamTypes, RequestData, RequestFiles
 
@@ -25,6 +27,7 @@ class ApiClient:
         """
         self.client = client
 
+    @allure.step("Отправить GET-запрос на {url}")
     def get(self, url: URL | str, params: QueryParamTypes) -> Response:
         """Отправляет GET-запрос.
 
@@ -37,6 +40,7 @@ class ApiClient:
         """
         return self.client.get(url, params=params)
 
+    @allure.step("Отправить POST-запрос на {url}")
     def post(
         self,
         url: URL | str,
@@ -57,6 +61,7 @@ class ApiClient:
         """
         return self.client.post(url, json=json, data=data, files=files)
 
+    @allure.step("Отправить PATCH-запрос на {url}")
     def patch(self, url: URL | str, json: Any | None = None) -> Response:
         """Отправляет PATCH-запрос (частичное обновление ресурса).
 
@@ -69,6 +74,7 @@ class ApiClient:
         """
         return self.client.patch(url, json=json)
 
+    @allure.step("Отправить DELETE-запрос на {url}")
     def delete(self, url: URL | str) -> Response:
         """Отправляет DELETE-запрос.
 

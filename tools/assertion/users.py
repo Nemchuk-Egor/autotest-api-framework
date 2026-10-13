@@ -6,10 +6,13 @@
 
 from typing import Any
 
+import allure
+
 from client.users.users_schema import CreateUserRequestSchema, CreateUserResponseSchema
 from tools.assertion.base import assert_equal, assert_is_true
 
 
+@allure.step("Проверить поля пользователя")
 def assert_user(actual: Any, expected: Any) -> None:
     """Сравнивает два объекта пользователя поле за полем.
 
@@ -29,6 +32,7 @@ def assert_user(actual: Any, expected: Any) -> None:
     assert_equal(actual.middle_name, expected.middle_name, "middle_name")
 
 
+@allure.step("Проверить ответ на создание пользователя")
 def assert_create_user(
     actual: CreateUserResponseSchema, expected: CreateUserRequestSchema
 ) -> None:
@@ -46,7 +50,7 @@ def assert_create_user(
     Raises:
         AssertionError: Если ``user`` отсутствует или поля не совпадают.
     """
-    assert_is_true(actual.user, "user")
+    assert_is_true(actual.user.id, "id")
     assert_equal(actual.user.email, expected.email, "email")
     assert_equal(actual.user.first_name, expected.first_name, "first_name")
     assert_equal(actual.user.last_name, expected.last_name, "last_name")

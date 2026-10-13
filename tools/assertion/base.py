@@ -7,7 +7,10 @@
 
 from typing import Any
 
+import allure
 
+
+@allure.step("Проверить, что статус-код равен {expected}")
 def assert_status_code(actual: int, expected: int) -> None:
     """Проверяет, что HTTP-статус ответа совпадает с ожидаемым.
 
@@ -21,6 +24,7 @@ def assert_status_code(actual: int, expected: int) -> None:
     assert actual == expected, f"Expected status code {expected}, but got {actual}"
 
 
+@allure.step("Проверить, что {name} равен {expected}")
 def assert_equal(actual: Any, expected: Any, name: str) -> None:
     """Проверяет равенство двух значений с указанием имени поля.
 
@@ -36,6 +40,7 @@ def assert_equal(actual: Any, expected: Any, name: str) -> None:
     assert actual == expected, f"Expected {name} to be {expected}, but got {actual}"
 
 
+@allure.step("Проверить, что {name} заполнен")
 def assert_is_true(actual: Any, name: str) -> None:
     """Проверяет, что значение истинно (truthy) в смысле Python.
 
